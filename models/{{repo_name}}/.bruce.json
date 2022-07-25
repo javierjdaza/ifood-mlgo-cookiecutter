@@ -1,0 +1,10 @@
+{
+  "image_name": "235655843873.dkr.ecr.us-east-2.amazonaws.com/aldrin-co",
+  "aws_profile": "data-intelligence",
+  "aws_region": "us-east-2",
+  "bruce_application_type": "byo",
+  "s3_bucket": "",
+  "s3_prefix": "",
+  "cmd_cache": {},
+  "cache_enabled": false
+}

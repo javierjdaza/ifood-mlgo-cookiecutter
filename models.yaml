@@ -1,0 +1,17 @@
+{ { cookiecutter.repo_name } }:
+  id:
+  type: active
+  description: { { cookiecutter.description } }
+  country: { { cookiecutter.country } }
+  status: { { cookiecutter.enviroment } }
+  creation_date: {
+      {
+        from datetime import datetime
+        today = datetime.now().strftime('%Y-%m-%d'),
+      },
+    }
+  area: { { cookiecutter.country } }
+  leader: { { cookiecutter.leader } }
+  coverage: 10
+  family_name: { { cookiecutter.family_name } }
+  current_prd_version: "0.1"

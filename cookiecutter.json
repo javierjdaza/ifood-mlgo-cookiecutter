@@ -1,0 +1,19 @@
+{
+  "project_name": "model name, just the name",
+  "repo_name": "{{ 'co_' + cookiecutter.project_name.lower().replace(' ', '_') }}",
+  "artefacts_name": "{{cookiecutter.repo_name + 'bruce-image'}}",
+  "gitlab_group": "antifraud",
+  "owner": "javier.olivella",
+  "description": "Chargeback Model",
+  "enviroment": "dev",
+  "endpoint_name": "{{ cookiecutter.project_name + '-endpoint'}}",
+  "team": "latam",
+  "data_capture": "100",
+  "leader": "bryan.medina",
+  "family_name": "antifraud-models",
+  "country": "Colombia",
+  "owner_layer_slug": "antifraud-int",
+  "cost_center": "antifraud",
+  "slack_notify": "True",
+  "email_notify": "False"
+}

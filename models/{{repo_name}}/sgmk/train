@@ -1,0 +1,78 @@
+#!/usr/bin/env python3
+import os
+import sys; sys.path.append(os.path.abspath(os.path.join(__file__, '..', '..')))
+import argparse
+from sgmk.train_encapsulation import train
+import importlib
+importlib.import_module('app_train')
+
+
+def _parse_args(default_prefix_path):
+    parser = argparse.ArgumentParser()
+
+    required = parser.add_argument_group('required arguments')
+
+    required.add_argument(
+        '-i', '--input-data-dir',
+        help='input directory path where all the training file(s) reside in',
+        type=str,
+        dest='input_data_path',
+        default=os.path.join(default_prefix_path, 'input/data/')
+    )
+    required.add_argument(
+        '-m', '--model-save-dir',
+        help='directory path to save your model(s)',
+        type=str,
+        dest='model_save_path',
+        default=os.path.join(default_prefix_path, 'model')
+    )
+    parser.add_argument(
+        '-c', '--config-json-file',
+        help='input path to config json file',
+        type=str,
+        default=os.path.join(default_prefix_path, 'input/config/inputdataconfig.json'),
+        dest='input_config_file'
+    )
+    parser.add_argument(
+        '-p', '--hyperparams-json-file',
+        help='input path to hyperparams json file',
+        type=str,
+        default=os.path.join(default_prefix_path, 'input/config/hyperparameters.json'),
+        dest='hyperparams_path'
+    )
+    parser.add_argument(
+        '-f', '--failure-dir',
+        help='output directory path to save your failure(s) files',
+        type=str,
+        default=os.path.join(default_prefix_path, 'output/failure'),
+        dest='failure_output'
+    )
+
+    return parser.parse_args()
+
+
+def main():
+    try:
+        options = _parse_args('.')
+
+        result = train(
+            options.input_data_path,
+            options.model_save_path,
+            options.input_config_file,
+            options.hyperparams_path,
+            options.failure_output,
+        )
+        if result:
+            print('training completed successfully!')
+            # A zero exit code causes the job to be marked a Succeeded.
+            return 0
+        else:
+            print('Training could not be finished.')
+            return -1
+    except Exception as err:
+        print("Unexpected error: {}".format(err))
+        return -1
+
+
+if __name__ == '__main__':
+    sys.exit(main())

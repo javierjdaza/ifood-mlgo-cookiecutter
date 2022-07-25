@@ -1,0 +1,13 @@
+{
+    "image_name": "563718358426.dkr.ecr.us-east-1.amazonaws.com/aldrin-co",
+    "aws_profile": "ifood-data-dev",
+    "aws_region": "us-east-1",
+    "bruce_application_type": "byo",
+    "s3_bucket": "",
+    "s3_prefix": "",
+    "cmd_cache": {},
+    "cache_enabled": false
+}
+
+
+

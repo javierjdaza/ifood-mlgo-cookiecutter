@@ -1,0 +1,5 @@
+gunicorn>=19.9.0, <19.9.99
+gevent>=1.4.0, <1.4.99
+flask>=1.1.1, <1.1.99
+greenlet==0.4.16
+MarkupSafe==2.0.1
