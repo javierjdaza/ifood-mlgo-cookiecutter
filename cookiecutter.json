@@ -15,5 +15,6 @@
   "owner_layer_slug": "antifraud-int",
   "cost_center": "antifraud",
   "slack_notify": "True",
-  "email_notify": "False"
+  "email_notify": "False",
+  "creation_date": "{{from datetime import datetime datetime.now().strftime('%y-%m-%d')}}"
 }

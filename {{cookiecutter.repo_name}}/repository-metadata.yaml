@@ -1,30 +1,29 @@
-
 # Important Notice
 #
 # This file is managed by Tompero’s indexing process.
 # Manual changes to the managed fields won’t take effect and will be overwritted by Tompero.
 #
 # Tompero will also push commits directly to this file when needed
-# without previous Notice. 
+# without previous Notice.
 # Currently, the fields managed by Tompero are the following:
-# * requiredForDR 
+# * requiredForDR
 
 apiVersion: ifood/v2
 kind: Repository
 tags: []
 metadata:
-  costCenter: antifraud
-  tribe: antifraud
-  squad: antifraud
+  costCenter: {{cookiecutter.cost_center}}
+  tribe: {{cookiecutter.cost_center}}
+  squad: {{cookiecutter.cost_center}}
   team:
     alias: none
-    channel: antifraud
-    email: javier.olivella@ifood.com.co
-    owner: javier.olivella
+    channel:{{cookiecutter.cost_center}}
+    email: {{cookiecutter.email}}
+    owner: {{cookiecutter.owner}}
 spec:
   contents:
-    - name: co-aldrin
-      description: Model Chargebacks antifraud
+    - name: {{cookiecutter.repo_name}}
+      description: {{cookiecutter.description}}
       type: other
       subType:
         - cronjob
@@ -32,6 +31,6 @@ spec:
       links: []
       deployment:
         type: none
-        chefRole: ''
+        chefRole: ""
       certifications: []
-      ownerLayerSlug: antifraud-int
+      ownerLayerSlug: {{cookiecutter.owner_layer_slug}}
