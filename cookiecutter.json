@@ -1,7 +1,7 @@
 {
   "project_name": "model name, just the name",
   "repo_name": "{{ 'co_' + cookiecutter.project_name.lower().replace(' ', '_') }}",
-  "artefacts_name": "{{cookiecutter.repo_name.replace('_', '-') + '_bruce-image'}}",
+  "artefacts_name": "{{cookiecutter.repo_name.replace('_', '-') + '-bruce-image'}}",
   "gitlab_group": "antifraud",
   "owner": "javier.olivella",
   "description": "Chargeback Model",
