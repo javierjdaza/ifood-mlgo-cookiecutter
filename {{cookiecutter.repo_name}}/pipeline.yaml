@@ -1,8 +1,8 @@
-"{ { cookiecutter.repo_name } }":
-  env: { { cookiecutter.enviroment } }
+{{cookiecutter.repo_name}}:
+  env: {{cookiecutter.enviroment}}
   branch: master
   # version: 1.0.0                we remove this key because we want ml go! to get always the latest version
-  models: { { cookiecutter.repo_name } }
+  models: {{cookiecutter.repo_name}}
   notifications:
     slack: {{cookiecutter.slack_notify}}
     email: {{cookiecutter.email_notify}}

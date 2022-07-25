@@ -4,10 +4,10 @@
   description: { { cookiecutter.description } }
   country: { { cookiecutter.country } }
   status: { { cookiecutter.enviroment } }
-  creation_date: {
+  creation_date:
+    {
       {
-        from datetime import datetime
-        today = datetime.now().strftime('%Y-%m-%d'),
+        from datetime import datetime today = datetime.now().strftime('%Y-%m-%d'),
       },
     }
   area: { { cookiecutter.country } }
