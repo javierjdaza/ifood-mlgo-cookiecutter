@@ -6,7 +6,7 @@
   "owner": "javier.olivella",
   "description": "Chargeback Model",
   "enviroment": "dev",
-  "endpoint_name": "{{ cookiecutter.repo_name + '-endpoint'}}",
+  "endpoint_name": "{{ cookiecutter.repo_name.replace('_', '-') + '-endpoint'}}",
   "team": "latam",
   "data_capture": "100",
   "leader": "bryan.medina",
