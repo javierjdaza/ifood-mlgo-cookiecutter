@@ -20,7 +20,11 @@
       args:
         bruce_part_path: f"models/{{cookiecutter.repo_name}}"
         image_tag: "latest"
-        aws_region: {% if cookiecutter.enviroment == 'prd' %} "us-east-2" {% else %} "us-east-1"{% endif %}
+        {% if cookiecutter.enviroment == 'prd' -%}  {% else %}
+        aws_region: "us-east-2"
+        {%- else -%}
+        aws_region: "us-east-1"
+        {%- endif %}
   pipeline:
     version: "8"
     vars:
