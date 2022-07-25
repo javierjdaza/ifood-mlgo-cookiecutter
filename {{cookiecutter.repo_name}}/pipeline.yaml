@@ -1,79 +1,87 @@
-# { { cookiecutter.repo_name } }:
-#   env: { { cookiecutter.enviroment } }
-#   branch: master
-#   # version: 1.0.0                we remove this key because we want ml go! to get always the latest version
-#   models: { { cookiecutter.repo_name } }
-#   notifications:
-#     slack: {{cookiecutter.slack_notify}}
-#     email: {{cookiecutter.email_notify}}
-#   namespace:
-#     s3_prefix: {{cookiecutter.repo_name}}
-#     endpoint_name: {{cookiecutter.endpoint_name}}
-#     owners:
-#       - {{cookiecutter.owner}}
-#     team: {{cookiecutter.team}}
-#   artefacts:
-#     {{cookiecutter.artefacts_name}}:
-#       type: "build_and_push"
-#       strategy: "bruceml"
-#       version: "latest"
-#       args:
-#         bruce_part_path: f"models/{{cookiecutter.repo_name}}"
-#         image_tag: "latest"
-#         aws_region: {{"us-east-2" cookiecutter.enviroment == 'prd' else "us-east-1"}}
-#   pipeline:
-#     version: "8"
-#     vars:
-#       NUM_INSTANCES: "2"
-#     tasks:
-#       train:
-#         cloud_parameters:
-#           region: {{"us-east-2" cookiecutter.enviroment == 'prd' else "us-east-1"}}
-#         type: train
-#         strategy: bruceml
-#         version: "8"
-#         args:
-#           bruce_args: |
-#             {
-#               "--image-name": f"<artefacts.{{cookiecutter.artefacts_name}}.data.image_name>",
-#               "--docker-tag": "<artefacts.{{cookiecutter.artefacts_name}}.data.image_tag>",
-#               "-i": "s3://<pipeline.defaults.train.bucket>/{{cookiecutter.repo_name}}/input/data/",
-#               "-o": "s3://<pipeline.defaults.train.bucket>/{{cookiecutter.repo_name}}/model/",
-#               "-c": "training",
-#               "-e": "ml.m5.large",
-#               "--aws-profile": "<pipeline.defaults.train.aws_profile>",
-#               "--aws-region": "<pipeline.defaults.train.aws_region>",
-#               "-r": "<pipeline.defaults.train.role>"
-#             }
-#       serve:
-#         cloud_parameters:
-#           region: us-east-2
-#         type: serve
-#         strategy: bruceml
-#         version: "8"
-#         args:
-#           bruce_args: |
-#             {
-#               "--image-name": "<artefacts.{{cookiecutter.artefacts_name}}.data.image_name>",
-#               "--docker-tag": "<artefacts.{{cookiecutter.artefacts_name}}.data.image_tag>",
-#               "--endpoint-name": "{{cookiecutter.endpoint_name}}",
-#               "-m": "<tasks.train.data.s3_model_path>",
-#               "-n": "<vars.NUM_INSTANCES>",
-#               "-e": "ml.m5.large",
-#               "--aws-profile": "<pipeline.defaults.serve.aws_profile>",
-#               "--aws-region": "<pipeline.defaults.serve.aws_region>",
-#               "-r": "<pipeline.defaults.serve.role>",
-#               "--vpc-config": "<pipeline.defaults.serve.vpc>",
-#               "--tags": "[{\"Key\": \"mlgo-team\",\"Value\": \"latam\"}, {\"Key\": \"service-name\",\"Value\": \"{{cookiecutter.repo_name}}\"}, {\"Key\": \"owner-layer-slug\", \"Value\": \"dat-sci-latam-cu\"}]",
-#               "--data-capture-sampling-percentage": "{{cookiecutter.data_capture}}",
-#               "--data-capture-s3-destination": "s3://<pipeline.defaults.serve.bucket>/{{cookiecutter.repo_name}}/logs/"
-#             }
-#     triggers:
-#       code:
-#         enabled: True
-#       schedule:
-#         enabled: False
-#         cron: 0 9 * * ? *
-#       data:
-#         enabled: True
-#         s3_prefix: "{{cookiecutter.repo_name}}/input/data/training/input.csv"
+{ { cookiecutter.repo_name } }:
+  env: { { cookiecutter.enviroment } }
+  branch: master
+  # version: 1.0.0                we remove this key because we want ml go! to get always the latest version
+  models: { { cookiecutter.repo_name } }
+  notifications:
+    slack: {{cookiecutter.slack_notify}}
+    email: {{cookiecutter.email_notify}}
+  namespace:
+    s3_prefix: {{cookiecutter.repo_name}}
+    endpoint_name: {{cookiecutter.endpoint_name}}
+    owners:
+      - {{cookiecutter.owner}}
+    team: {{cookiecutter.team}}
+  artefacts:
+    {{cookiecutter.artefacts_name}}:
+      type: "build_and_push"
+      strategy: "bruceml"
+      version: "latest"
+      args:
+        bruce_part_path: f"models/{{cookiecutter.repo_name}}"
+        image_tag: "latest"
+        {% if cookiecutter.enviroment == 'prd' -%}
+        aws_region: "us-east-2"
+        {%- else -%}
+        aws_region: "us-east-1"
+        {%- endif %}
+  pipeline:
+    version: "8"
+    vars:
+      NUM_INSTANCES: "2"
+    tasks:
+      train:
+        cloud_parameters:
+          {% if cookiecutter.enviroment == 'prd' -%}
+          region: "us-east-2"
+          {%- else -%}
+          region: "us-east-1"
+          {%- endif %}
+        type: train
+        strategy: bruceml
+        version: "8"
+        args:
+          bruce_args: |
+            {
+              "--image-name": f"<artefacts.{{cookiecutter.artefacts_name}}.data.image_name>",
+              "--docker-tag": "<artefacts.{{cookiecutter.artefacts_name}}.data.image_tag>",
+              "-i": "s3://<pipeline.defaults.train.bucket>/{{cookiecutter.repo_name}}/input/data/",
+              "-o": "s3://<pipeline.defaults.train.bucket>/{{cookiecutter.repo_name}}/model/",
+              "-c": "training",
+              "-e": "ml.m5.large",
+              "--aws-profile": "<pipeline.defaults.train.aws_profile>",
+              "--aws-region": "<pipeline.defaults.train.aws_region>",
+              "-r": "<pipeline.defaults.train.role>"
+            }
+      serve:
+        cloud_parameters:
+          region: us-east-2
+        type: serve
+        strategy: bruceml
+        version: "8"
+        args:
+          bruce_args: |
+            {
+              "--image-name": "<artefacts.{{cookiecutter.artefacts_name}}.data.image_name>",
+              "--docker-tag": "<artefacts.{{cookiecutter.artefacts_name}}.data.image_tag>",
+              "--endpoint-name": "{{cookiecutter.endpoint_name}}",
+              "-m": "<tasks.train.data.s3_model_path>",
+              "-n": "<vars.NUM_INSTANCES>",
+              "-e": "ml.m5.large",
+              "--aws-profile": "<pipeline.defaults.serve.aws_profile>",
+              "--aws-region": "<pipeline.defaults.serve.aws_region>",
+              "-r": "<pipeline.defaults.serve.role>",
+              "--vpc-config": "<pipeline.defaults.serve.vpc>",
+              "--tags": "[{\"Key\": \"mlgo-team\",\"Value\": \"latam\"}, {\"Key\": \"service-name\",\"Value\": \"{{cookiecutter.repo_name}}\"}, {\"Key\": \"owner-layer-slug\", \"Value\": \"dat-sci-latam-cu\"}]",
+              "--data-capture-sampling-percentage": "{{cookiecutter.data_capture}}",
+              "--data-capture-s3-destination": "s3://<pipeline.defaults.serve.bucket>/{{cookiecutter.repo_name}}/logs/"
+            }
+    triggers:
+      code:
+        enabled: True
+      schedule:
+        enabled: False
+        cron: 0 9 * * ? *
+      data:
+        enabled: True
+        s3_prefix: "{{cookiecutter.repo_name}}/input/data/training/input.csv"
