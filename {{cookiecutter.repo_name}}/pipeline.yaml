@@ -1,4 +1,4 @@
-{ { cookiecutter.repo_name } }:
+"{ { cookiecutter.repo_name } }":
   env: { { cookiecutter.enviroment } }
   branch: master
   # version: 1.0.0                we remove this key because we want ml go! to get always the latest version
