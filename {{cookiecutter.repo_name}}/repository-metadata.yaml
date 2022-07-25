@@ -18,7 +18,7 @@ metadata:
   team:
     alias: none
     channel:{{cookiecutter.cost_center}}
-    email: {{cookiecutter.email}}
+    email: {{cookiecutter.owner + '@ifood.com.co'}}
     owner: {{cookiecutter.owner}}
 spec:
   contents:
