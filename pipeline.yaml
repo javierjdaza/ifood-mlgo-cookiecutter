@@ -20,7 +20,7 @@
       args:
         bruce_part_path: f"models/{{cookiecutter.repo_name}}"
         image_tag: "latest"
-        {% if cookiecutter.enviroment == 'prd' -%}  {% else %}
+        {% if cookiecutter.enviroment == 'prd' -%}
         aws_region: "us-east-2"
         {%- else -%}
         aws_region: "us-east-1"
@@ -32,7 +32,11 @@
     tasks:
       train:
         cloud_parameters:
-          region: {{"us-east-2" cookiecutter.enviroment == 'prd' else "us-east-1"}}
+          {% if cookiecutter.enviroment == 'prd' -%}
+          region: "us-east-2"
+          {%- else -%}
+          region: "us-east-1"
+          {%- endif %}
         type: train
         strategy: bruceml
         version: "8"
